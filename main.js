@@ -7,6 +7,7 @@ import BarChart from './BarChart.jsx';
 import PieChart from './PieChart.jsx';
 import Publisher from './Publisher.jsx';
 import Subscriber from './Subscriber.jsx';
+import DynamicWidget from './DynamicWidget.jsx';
 import $ from 'jquery';
 import './dashboard.css';
 
@@ -34,12 +35,6 @@ var config = {
         type: 'row',
         content: [
             {
-                title: 'Bar Chart',
-                type: 'react-component',
-                component: 'barChart',
-                props: {id:uuid + 'barChart'}
-            },
-            {
                 title: 'Pie Chart',
                 type: 'react-component',
                 component: 'pieChart',
@@ -54,7 +49,8 @@ var config = {
                 title: 'Subscriber',
                 type: 'react-component',
                 component: 'subscriber'
-            }]
+            }
+        ]
     }]
 };
 
@@ -75,6 +71,10 @@ var widgetsList = [
     {
         title: "Subscriber",
         component: 'subscriber'
+    },
+    {
+        title: "DynamicWidget",
+        component: 'DynamicWidget'
     }
 ];
 
@@ -89,6 +89,7 @@ myLayout.registerComponent('barChart', BarChart);
 myLayout.registerComponent('pieChart', PieChart);
 myLayout.registerComponent('publisher', Publisher);
 myLayout.registerComponent('subscriber', Subscriber);
+myLayout.registerComponent('DynamicWidget',DynamicWidget);
 
 function addWidget(widget) {
     var element = $('<li>' + widget.title + '</li>');
