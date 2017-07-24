@@ -8,7 +8,6 @@ import PieChart from './PieChart.jsx';
 import Publisher from './Publisher.jsx';
 import Subscriber from './Subscriber.jsx';
 import DynamicWidget from './DynamicWidget.jsx';
-import $ from 'jquery';
 import './dashboard.css';
 
 var uuid;
@@ -78,7 +77,7 @@ var widgetsList = [
     }
 ];
 
-var myLayout = new GoldenLayout(config,$("#view"));
+var myLayout = new GoldenLayout(config,document.getElementById('view'));
 function initializeWidgetList() {
     for (let widget in widgetsList) {
         addWidget(widgetsList[widget])
@@ -92,8 +91,11 @@ myLayout.registerComponent('subscriber', Subscriber);
 myLayout.registerComponent('DynamicWidget',DynamicWidget);
 
 function addWidget(widget) {
-    var element = $('<li>' + widget.title + '</li>');
-    $('#menuContainer').append(element);
+    var menuContainer = document.getElementById('menuContainer');
+    var menuItem = document.createElement('div');
+    menuItem.innerHTML = '<li id=\"'+widget.title+'\">' + widget.title + '</li>';
+    menuContainer.appendChild(menuItem.firstChild)
+
     var id = getGadgetUUID(widget.component);
     var newItemConfig = {
         title: widget.title,
@@ -105,7 +107,7 @@ function addWidget(widget) {
         }
 
     };
-    myLayout.createDragSource(element, newItemConfig);
+    myLayout.createDragSource(document.getElementById(widget.title), newItemConfig);
 }
 
 function getGadgetUUID(widgetName) {
@@ -122,13 +124,13 @@ myLayout.init();
 window.ReactDOM = ReactDOM;
 window.React = React;
 
-myLayout.on('stateChanged', function () {
-    $('#menuContainer').empty();
-    initializeWidgetList();
-});
+// myLayout.on('stateChanged', function () {
+//     $('#menuContainer').empty();
+//     initializeWidgetList();
+// });
 
-$(window).resize(function () {
+window.onresize = function () {
     myLayout.updateSize();
-});
+};
 
 
